@@ -4,7 +4,7 @@
 
 A DeepSeek Harness plugin that ships HarmonyOS NEXT development skills — ArkTS / ArkUI coding knowledge and ArkTS code review.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-267A59)](./LICENSE)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey)](./LICENSE)
 [![DSH plugin](https://img.shields.io/badge/DeepSeek%20Harness-plugin-202724)](https://github.com/deepseek-ai/deepseek-harness)
 [![Ecosystem](https://img.shields.io/badge/ecosystem-spike--faye--lei--dsh--skills-267A59)](https://github.com/spike-faye-lei/spike-faye-lei-dsh-skills)
 
@@ -66,4 +66,6 @@ package.json               # dsh.bundle 元数据
 
 ## 许可 / License
 
-[MIT](./LICENSE)
+本项目代码采用 [CC BY-NC 4.0](./LICENSE)。
+
+> ⚠️ 禁止任何第三方将本代码用于商业用途。作者保留全部商业权利。
