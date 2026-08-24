@@ -17,14 +17,14 @@ A DeepSeek Harness plugin that ships HarmonyOS NEXT development skills — ArkTS
 | `harmonyos-development` | 鸿蒙原生开发全量知识：API 22–24 + API 26 Beta1、ArkTS/ArkUI、Stage 模型、状态管理、Navigation、权限、相机/文件系统、性能、打包签名等 |
 | `arkts-review` | ArkTS 代码审查与修复：`.ets` 编译错误、API 弃用迁移、严格模式类型问题、`@kit.*` 导入、相机/文件系统 API 迁移 |
 
-覆盖版本基线：**HarmonyOS 6.1（API 23）/ 6.1.1（API 24 Release，生产默认）/ HarmonyOS 7（API 26 Beta1，预览适配）**。
+覆盖版本基线：**HarmonyOS 6.1（API 23）/ 6.1.1（API 24 Release，生产默认）/ HarmonyOS 7（API 26 Beta2，预览适配）**。
 
 ## 安装 / Install
 
-确保已安装 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)，然后从 npm 安装：
+确保已安装 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)，然后从 GitHub 安装：
 
 ```sh
-dsh plugin --profile web add dsh-harmonyos-arkts
+dsh plugin --profile web add git+https://github.com/spike-faye-lei/dsh-harmonyos-arkts.git
 ```
 
 或从源码 / 本地目录安装：
@@ -34,6 +34,8 @@ git clone https://github.com/spike-faye-lei/dsh-harmonyos-arkts.git
 cd dsh-harmonyos-arkts
 dsh plugin --profile web add .
 ```
+
+> 尚未发布到 npm（`dsh plugin --profile web add dsh-harmonyos-arkts` 暂不可用），npm 发布计划见 [issue 跟踪](https://github.com/spike-faye-lei/dsh-harmonyos-arkts/issues)。
 
 安装后重启（或热挂载后刷新）DSH，即可在 agent 会话中通过技能名触发 `harmonyos-development` 或 `arkts-review`。
 

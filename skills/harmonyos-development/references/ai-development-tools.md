@@ -11,7 +11,7 @@ Use this reference for DevEco Code, DevEco CLI, Agent Framework Kit, app Skills,
 | Scriptable project, build, check, device, and debugging actions for Agents or CI/CD | DevEco CLI |
 | General-purpose third-party coding Agent | Its native workflow plus DevEco CLI/Hvigor/HDC and this skill |
 
-DevEco Code is a HarmonyOS-focused coding Agent, while DevEco CLI is the execution layer designed for command-line automation and Agent invocation. Neither changes the production SDK baseline: use API 24 Release by default and API 26 Beta1 only for preview/adaptation work.
+DevEco Code is a HarmonyOS-focused coding Agent, while DevEco CLI is the execution layer designed for command-line automation and Agent invocation. Neither changes the production SDK baseline: use API 24 Release by default and API 26 Beta2 only for preview/adaptation work.
 
 ## Agent capability boundaries
 

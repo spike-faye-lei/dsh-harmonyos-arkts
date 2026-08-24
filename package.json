@@ -1,6 +1,6 @@
 {
   "name": "dsh-harmonyos-arkts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "HarmonyOS NEXT / ArkTS development skills for DeepSeek Harness — ArkTS/ArkUI coding knowledge and ArkTS code review.",
   "author": "spike-faye-lei",
   "type": "module",
@@ -41,5 +41,5 @@
     "url": "https://github.com/spike-faye-lei/dsh-harmonyos-arkts/issues"
   },
   "homepage": "https://github.com/spike-faye-lei/dsh-harmonyos-arkts#readme",
-  "license": "MIT"
+  "license": "CC-BY-NC-4.0"
 }

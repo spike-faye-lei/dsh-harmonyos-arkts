@@ -3,7 +3,7 @@
 ## Default policy
 
 - Production default: HarmonyOS 6.1.1 Release / API 24.
-- Preview-only: HarmonyOS 7 / API 26 Beta1.
+- Preview-only: HarmonyOS 7 / API 26 Beta2 (Beta1 2026/06/12, Beta2 2026/07/28).
 - New apps should use the Stage model.
 - FA model is legacy and should only appear in migration explanations.
 

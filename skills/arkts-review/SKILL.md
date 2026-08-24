@@ -31,15 +31,15 @@ ArkTS 代码审查，覆盖七轴：API 兼容性、类型正确性、模块导�
 
 | 弃用 API | API Level | 替代方案 |
 |----------|-----------|---------|
-| `file.closeSync()` / `fs.closeSync()` | 12+ | `await file.close()` / `await fs.close(file)` |
+| `file.closeSync()`（File 实例方法） | 12+ 移除 | `fs.closeSync(file)` / `await fs.close(file)` |
 | `router.pushUrl()` | 18+ | `this.getUIContext().getRouter().pushUrl()` |
 | `router.back()` | 18+ | `this.getUIContext().getRouter().back()` |
 | `promptAction.showToast()` | 18+ | `this.getUIContext().getPromptAction().showToast()` |
-| `READ_MEDIA` / `WRITE_MEDIA` 权限 | 22+ | `READ_IMAGEVIDEO` / `WRITE_IMAGEVIDEO` |
+| `READ_MEDIA` / `WRITE_MEDIA` 权限 | 12+ | `READ_IMAGEVIDEO` / `WRITE_IMAGEVIDEO` |
 | `animateTo()` | 18+ | `this.getUIContext().animateTo()` |
 | `PhotoViewPicker` | 12+ | `photoAccessHelper.PhotoViewPicker` |
 
-**审查要点：** 每个 `closeSync()` 调用都要检查 → 替换为 `await xxx.close()`（必须在 async 函数内）。
+**审查要点：** 每个 File 实例方法调用（`file.closeSync()` 等）都要检查 → 替换为模块级函数 `fs.closeSync(file)` / `await fs.close(file)`（`await fs.close()` 必须在 async 函数内；模块级 `fs.closeSync()` 本身未废弃，仍可用）。
 
 ### 2. 类型正确性
 
@@ -118,7 +118,7 @@ await fs.close(srcFile)                   // ⚠️ 非 srcFile.close()
 
 **API 12+ 变更：**
 ```typescript
-// ❌ 全部弃用 — File 实例方法全部移除
+// ❌ 全部移除（API 12+）— File 实例方法全部移除
 file.closeSync()
 file.close()        // 也不存在！
 file.readSync(buf)  // 不存在！
@@ -131,8 +131,8 @@ fs.statSync(file.fd)
 fs.writeSync(file.fd, buf)
 ```
 
-**`openSync` / `writeSync` 仍可用（模块函数）。**
-**`readSync` / `statSync` / `close` 必须从 `fs` 调用，传入 `file.fd`。**
+**`openSync` / `writeSync` / `closeSync` / `readSync` / `statSync` / `close` 仍可用（模块函数，传入 File 或 fd 均可）。**
+**仅 File 实例方法被移除：`file.xxx()` → `fs.xxx(file.fd)`（`close` 用 `await fs.close(file)`）。**
 
 **审查要点：** 每个 `File` 实例方法调用都要检查 → `file.xxx()` → `fs.xxx(file.fd)`。外层函数必须 `async` 以支持 `await fs.close()`。
 
@@ -146,9 +146,9 @@ let file = fs.openSync(path, fs.OpenMode.READ_ONLY)  // 可能抛出异常
 // ✅ 正确 — 加 try-catch
 try {
   let file = fs.openSync(path, fs.OpenMode.READ_ONLY)
-  let stat = file.statSync()
+  let stat = fs.statSync(file.fd)
   // ...
-  await file.close()
+  await fs.close(file)
 } catch (e) {
   // 处理错误
 }
@@ -200,7 +200,7 @@ try {
 ## Red Flags
 
 - 用 `@ohos.multimedia.camera` 低级 API 做简单拍照（对面部识别/食物拍照，`cameraPicker` 更合适）
-- `fs.closeSync()` 在 API 12+ 项目中仍存在
+- `file.closeSync()`（File 实例方法）在 API 12+ 项目中仍存在（模块级 `fs.closeSync(file)` 不受影响）
 - `Promise<object>` 作为返回类型
 - 回调函数无显式类型
 - 在 `takePhoto()` 里反复注册 `on('photoAvailable')` 导致内存泄漏
