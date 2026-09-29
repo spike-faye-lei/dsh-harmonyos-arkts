@@ -10,25 +10,75 @@ cases:
       - "useState"
       - "React Hook"
 
-  - id: api24-production-default
+  - id: api26-production-default
     prompt: "帮我写一个生产可用的鸿蒙相机功能方案。"
     must_include:
-      - "API 24"
-      - "生产"
+      - "API 26.0.0"
+      - "Release"
       - "module.json5"
+      - "API 24"
     must_not_include:
-      - "默认使用 API 26"
-      - "HarmonyOS 7 Beta 默认"
+      - "API 26 仅预览"
+      - "生产必须使用 Beta SDK"
 
-  - id: api26-preview-boundary
-    prompt: "HarmonyOS 7 / API 26 适配要注意什么？"
+  - id: api26-release-status
+    prompt: "现在鸿蒙最新的 API 基线是什么？API 26 还是 Beta 吗？"
     must_include:
-      - "预览"
-      - "Beta"
-      - "API 26"
-      - "适配"
+      - "26.0.0"
+      - "Release"
+      - "API 24"
+      - "HarmonyOS 7"
     must_not_include:
-      - "API 24 默认使用 API 26"
+      - "API 26 是开发者预览"
+      - "没有 Release 版本"
+
+  - id: targetsdk-gating
+    prompt: "把 targetSdkVersion 从 24 提到 26.0.0 需要注意什么？"
+    must_include:
+      - "targetSdkVersion"
+      - "26.0.0"
+      - "行为变更"
+    must_not_include:
+      - "改个数字没有影响"
+
+  - id: immersive-material-scope
+    prompt: "API 26 的沉浸光感（systemMaterial）在普通组件上为什么不生效？"
+    must_include:
+      - "沉浸光感"
+      - "systemMaterial"
+      - "Navigation"
+      - "targetSdkVersion"
+    must_not_include:
+      - "所有组件全页默认生效"
+
+  - id: agent-framework-break
+    prompt: "升级到 API 26 后 Agent Framework Kit 编译报错，可能是什么原因？"
+    must_include:
+      - "AgentOperation"
+      - "getClientSessionId"
+      - "targetSdkVersion"
+    must_not_include:
+      - "Agent Framework Kit 没有变更"
+
+  - id: arkts-1.2-interop
+    prompt: "ArkTS 1.2 和 TypeScript 之间可以互相调用吗？"
+    must_include:
+      - "ESObject"
+      - "1.2"
+      - "互操作"
+    must_not_include:
+      - "TS 可以直接调用 ArkTS 1.2"
+      - "HarmonyOS 26 已默认启用 ArkTS 1.2"
+
+  - id: legacy-api-migration
+    prompt: "代码里用了 getContext(this)、router.pushUrl 和 animateTo，需要怎么迁移？"
+    must_include:
+      - "getUIContext"
+      - "getHostContext"
+      - "router"
+      - "animateTo"
+    must_not_include:
+      - "getContext(this) 是推荐写法"
 
   - id: stage-model-new-app
     prompt: "新建鸿蒙应用应该用 FA 模型还是 Stage 模型？"
@@ -47,6 +97,14 @@ cases:
       - "requestPermissionsFromUser"
     must_not_include:
       - "AndroidManifest.xml"
+
+  - id: permission-default-web-browser
+    prompt: "ohos.permission.DEFAULT_WEB_BROWSER 现在需要申请吗？"
+    must_include:
+      - "DEFAULT_WEB_BROWSER"
+      - "26.0.0"
+    must_not_include:
+      - "已经强制生效"
 
   - id: lazyforeach-performance
     prompt: "鸿蒙大列表卡顿怎么优化？"

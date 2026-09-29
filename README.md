@@ -14,10 +14,10 @@ A DeepSeek Harness plugin that ships HarmonyOS NEXT development skills — ArkTS
 
 | 技能 | 用途 |
 | --- | --- |
-| `harmonyos-development` | 鸿蒙原生开发全量知识：API 22–24 + API 26 Beta1、ArkTS/ArkUI、Stage 模型、状态管理、Navigation、权限、相机/文件系统、性能、打包签名等 |
-| `arkts-review` | ArkTS 代码审查与修复：`.ets` 编译错误、API 弃用迁移、严格模式类型问题、`@kit.*` 导入、相机/文件系统 API 迁移 |
+| `harmonyos-development` | 鸿蒙原生开发全量知识：API 23–24 + **API 26.0.0 Release（HarmonyOS 7）**、ArkTS/ArkUI、Stage 模型、状态管理、Navigation、权限、沉浸光感/材质、ArkTS 1.2 互操作、相机/文件系统、性能、打包签名等 |
+| `arkts-review` | ArkTS 代码审查与修复：`.ets` 编译错误、API 弃用迁移、严格模式类型问题、`@kit.*` 导入、旧 UIContext API 迁移（getContext/router/animateTo/AlertDialog）、API 26.0.0 行为门控（沉浸光感范围、Agent Framework Kit）、相机/文件系统 API 迁移 |
 
-覆盖版本基线：**HarmonyOS 6.1（API 23）/ 6.1.1（API 24 Release，生产默认）/ HarmonyOS 7（API 26 Beta2，预览适配）**。
+覆盖版本基线：**HarmonyOS 7（API 26.0.0，2026-08-29 Release，新项目生产默认）/ HarmonyOS 6.1.1（API 24 Release，兼容下限）/ HarmonyOS 6.1.0（API 23）**。API 26 行为变更以 `targetSdkVersion >= 26.0.0` 为门控；API 26.0.0 已发布正式版，不再是预览版。
 
 ## 安装 / Install
 
@@ -49,12 +49,12 @@ src/
 skills/
 ├── harmonyos-development/
 │   ├── SKILL.md           # 主技能（入口）
-│   ├── references/        # 13 份速查：ArkTS 规则、ArkUI 组件、状态管理、导航、权限、性能…
+│   ├── references/        # 15 份速查：平台基线、API 26.0.0、沉浸光感、ArkTS 1.2 互操作、ArkTS 规则、ArkUI 组件、状态管理、导航、权限、性能…
 │   ├── recipes/           # 配方：编译报错定位、ArkTS 代码审查
 │   ├── examples/          # 示例：LazyForEach/List、权限申请
 │   └── evals/             # 评测用例
 └── arkts-review/
-    └── SKILL.md           # ArkTS 审查技能（七轴审查 + 一键修复表）
+    └── SKILL.md           # ArkTS 审查技能（八轴审查 + 一键修复表）
 cordis.patch.yml           # bundle 补丁（挂载插件）
 package.json               # dsh.bundle 元数据
 ```

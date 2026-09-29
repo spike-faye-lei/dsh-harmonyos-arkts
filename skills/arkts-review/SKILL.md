@@ -1,25 +1,25 @@
 ---
 name: arkts-review
-description: ArkTS/HarmonyOS 代码审查与修复。Use when reviewing or fixing .ets files, HarmonyOS compilation errors, ArkTS type issues, or API deprecation warnings. Covers SDK API 12-24 breaking changes, @kit.* vs @ohos.* imports, strict mode rules, and camera/filesystem API migration.
+description: ArkTS/HarmonyOS 代码审查与修复。Use when reviewing or fixing .ets files, HarmonyOS compilation errors, ArkTS type issues, or API deprecation warnings. Covers SDK API 12-26.0.0 breaking changes, targetSdkVersion 26.0.0 behavior gates (systemMaterial/沉浸光感 scope, Agent Framework Kit, 32vp touch targets), @kit.* vs @ohos.* imports, strict mode rules, legacy UIContext migration (getContext/router/animateTo/AlertDialog), and camera/filesystem API migration.
 ---
 
 # ArkTS Code Review
 
 ## Overview
 
-ArkTS 代码审查，覆盖七轴：API 兼容性、类型正确性、模块导入、弃用 API、相机/文件系统用法、异常处理、结构化建议。
+ArkTS 代码审查，覆盖八轴：API 兼容性、类型正确性、模块导入、弃用 API、相机/文件系统用法、异常处理、结构化建议、API 26.0.0 行为门控与破坏性变更。
 
 ## 核心流程
 
 收到 ".ets 文件报错" 时：
 
-1. **先读 `build-profile.json5`** — 确认 `targetSdkVersion`，API level 决定哪些 API 可用/弃用
+1. **先读 `build-profile.json5`** — 确认 `targetSdkVersion` / `compatibleSdkVersion`，API level 决定哪些 API 可用/弃用；**`targetSdkVersion` 是否 >= 26.0.0 决定 API 26 行为变更是否生效**（沉浸光感材质范围、触控目标尺寸、Agent Framework Kit 破坏性变更等）
 2. **找到所有报错文件** — grep 报错关键词（`closeSync`, `createForResult`, `any`, `unknown` 等）
 3. **逐文件修复** — 按下方规则改
 4. **内存自查** — 对照 `harmonyos-arkts-reference` 记忆
 5. **输出变更摘要** — 哪些文件改了什么
 
-## 七大审查轴
+## 八大审查轴
 
 ### 1. API 兼容性（最常见）
 
@@ -38,6 +38,10 @@ ArkTS 代码审查，覆盖七轴：API 兼容性、类型正确性、模块导�
 | `READ_MEDIA` / `WRITE_MEDIA` 权限 | 12+ | `READ_IMAGEVIDEO` / `WRITE_IMAGEVIDEO` |
 | `animateTo()` | 18+ | `this.getUIContext().animateTo()` |
 | `PhotoViewPicker` | 12+ | `photoAccessHelper.PhotoViewPicker` |
+| `getContext(this)` | 18+ | `this.getUIContext().getHostContext()` |
+| `AlertDialog.show()` | 18+ | `this.getUIContext().showAlertDialog()` |
+| `CustomDialog` / `CustomDialogController` | 18+ | `openCustomDialog` / `openBindSheet`（UIContext） |
+| `@ohos.*` 直接导入（如 `@ohos.multimedia.camera`） | 12+ | `@kit.*` 命名空间（如 `@kit.CameraKit`），无需 oh-package 依赖 |
 
 **审查要点：** 每个 File 实例方法调用（`file.closeSync()` 等）都要检查 → 替换为模块级函数 `fs.closeSync(file)` / `await fs.close(file)`（`await fs.close()` 必须在 async 函数内；模块级 `fs.closeSync()` 本身未废弃，仍可用）。
 
@@ -111,7 +115,7 @@ await fs.close(srcFile)                   // ⚠️ 非 srcFile.close()
 
 **审查要点：**
 - 低级 API（`CameraManager` / `PhotoOutput` / `CaptureSession`）复杂且容易出错，优先 `cameraPicker`
-- `context` 用 `getContext(this) as common.UIAbilityContext`
+- `context` 用 `this.getUIContext().getHostContext() as common.UIAbilityContext`（`getContext(this)` 已废弃；模块级函数必须把 ctx 作为参数传入）
 - 人脸拍照用 `camera.CameraPosition.CAMERA_POSITION_FRONT`（前置镜头，⚠️ 完整枚举名）
 
 ### 5. 文件系统
@@ -166,6 +170,21 @@ try {
 - **`space` 是构造参数不是链式方法** — `Row({ space: 12 })` 而非 `Row().space(12)`
 - **`createImageSource` 可接受 fd (number) 或 URI (string)**
 
+### 8. API 26.0.0 行为门控与破坏性变更（新增，仅当 `targetSdkVersion >= 26.0.0`）
+
+审查前先确认 `targetSdkVersion`；下面这些变更只在 `targetSdkVersion >= 26.0.0` 时生效，但 `compatibleSdkVersion` 低于 26 的项目必须保证回退路径：
+
+| 变更 | 检查点 |
+|------|--------|
+| Agent Framework Kit 破坏性变更 | grep `AgentOperation`（枚举 → `string`）与 `getClientSessionId()`（已移除）；`targetSdkVersion` 提到 26.0.0 后才会编译失败 |
+| 沉浸光感 `systemMaterial` 生效范围（2026/09/03 收窄） | 全页生效仅限弹窗类组件与 dialog API、Slider/Toggle/Select；其它组件仅在 `Navigation`/`NavDestination` 标题栏或 `barPosition: BarPosition.End` 的 Tabs 底部 TabBar 内生效。禁用方式：`metadata` `ohos.arkui.UIMaterial.state`=`disable`，或组件级 `uiMaterial.Material.empty` |
+| 表单控件最小触控目标 28vp → 32vp | Button / Button 风格 Toggle / Select / Chip / ChipGroup 的布局与点击区域重新验证 |
+| 权限策略与 `READ_IMAGEVIDEO`、`getUidRxBytes` / `getUidTxBytes` | 权限申请流程与埋点统计口径重新验证 |
+| ArkWeb Chromium 132 → 144、Cookie 存储目录变更 | 直接读写 cookie 文件、依赖旧内核行为的代码必须适配 |
+| 列表/节点适配项 | `List` `onScrollVisibleContentChange`、`NodeAdapter.onAttachToNode`、`LayoutPolicy.matchParent`、`EmbeddedComponent` 焦点、`WithTheme`、鼠标 `rawDeltaX/rawDeltaY` |
+
+**审查要点：** 如果项目 `targetSdkVersion` 仍 < 26.0.0，不要把这些变更当成缺陷；如果已 >= 26.0.0，逐项对照上表。API 26.0.0 已是 Release（2026/08/29），不要以"预览版"为由劝阻使用。官方发布说明：https://developer.huawei.com/consumer/cn/doc/harmonyos-releases/ （文档 ID `*-7003` / `changelogs-in-26003`）。
+
 ## 审查输出格式
 
 ```markdown
@@ -207,3 +226,7 @@ try {
 - 只用 `openSync` 创建空文件但从不实际拍照
 - `captureSession` 创建了但没 `commitConfig()` / `start()`
 - `capability.photoProfiles` 不检查 null/空数组直接 `[0]`
+- `targetSdkVersion` 已提到 26.0.0，但代码未处理 Agent Framework Kit 的 `AgentOperation` / `getClientSessionId` 破坏性变更
+- 断言沉浸光感在任意组件上全页生效（2026/09/03 收窄后只对弹窗类与 Slider/Toggle/Select 全页生效）
+- 仍在使用 `getContext(this)`、裸 `animateTo()`、`router.pushUrl()`、`AlertDialog.show()`
+- 把 API 26.0.0 当作预览/Beta 版本，从而拒绝使用已发布的 Release API

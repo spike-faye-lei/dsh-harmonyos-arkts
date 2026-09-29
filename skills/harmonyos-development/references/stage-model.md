@@ -14,6 +14,7 @@ Use this reference for HarmonyOS application model, lifecycle, UIAbility, Extens
 - `UIAbility`: page window entry and foreground UI lifecycle.
 - `WindowStage`: window creation and page loading.
 - `ExtensionAbility`: background or system integration capability, depending on extension type.
+- `ModularObjectExtensionAbility` (API 26.0.0): exposes app features as modular objects; declared with lifecycle callbacks, a context that can launch a UIAbility, destroy itself, and create IPC objects, plus connection management.
 - `module.json5`: declares abilities, permissions, and module metadata.
 
 ## Review checklist

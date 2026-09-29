@@ -14,11 +14,16 @@ Use this file for ArkUI state decorators and reactive rendering decisions.
 | App-level or storage-backed state | StorageLink or StorageProp |
 | Page-level local storage | LocalStorageLink or LocalStorageProp |
 
+## V2 is the default for new code
+
+V2 decorators (`@ComponentV2`, `@Local`, `@Param`/`@Once`, `@Event`, `@ObservedV2`/`@Trace`, `@Monitor`, `@Provider`/`@Consumer`, `AppStorageV2`, `PersistenceV2`) have been stable since API 23 and are the recommended choice for new projects on API 24 and API 26.0.0; API 26.0.0 adds new components built on V2. The table above remains the reference for reading and reviewing V1 code.
+
 ## Rules
 
 - Do not use ObjectLink without an Observed class.
 - For list rows, prefer stable object models and stable keys.
 - Explain whether changing an array element property triggers refresh in the chosen pattern.
+- Under V1, observation is first-level only; nested object changes are not detected.
 - Avoid React hook analogies unless the user explicitly asks for comparison.
 
 ## Review checklist

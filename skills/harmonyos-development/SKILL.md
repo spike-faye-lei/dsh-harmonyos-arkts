@@ -4,43 +4,48 @@ description: >
   Use when developing, reviewing, debugging, or migrating HarmonyOS NEXT native apps
   with ArkTS, ArkUI, DevEco Studio, DevEco Code, DevEco CLI, Agent Framework Kit,
   Stage model, UIAbility, .ets, module.json5,
-  oh-package.json5, HAP/HSP/HAR, API 22-24, API 26 Beta2, HarmonyOS 6.1,
-  HarmonyOS 6.1.1 Release, HarmonyOS 7 preview, HarmonyOS 26.0.0 Beta2,
+  oh-package.json5, HAP/HSP/HAR, API 23-24, API 26.0.0 Release, HarmonyOS 6.1.0,
+  HarmonyOS 6.1.1 Release, HarmonyOS 7, HarmonyOS 26.0.0, targetSdkVersion gating,
   state management decorators, Navigation/NavPathStack, ArkTS concurrency,
   permissions, persistence, networking, media, Camera Kit, Scan Kit, Map Kit,
   Push Kit, Payment Kit, App Linking, Share Kit, Weather Service Kit, ArkGuard,
-  APIAVAILABLE, ContainerReader, jsLeakWatcher, Linux CI, testing, performance,
+  systemMaterial/沉浸光感, ArkTS 1.2 interop, APIAVAILABLE, ContainerReader,
+  jsLeakWatcher, Linux CI, testing, performance,
   or common 鸿蒙开发 workflows.
 ---
 
 # HarmonyOS (鸿蒙) Development
 
-Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 developer preview (API 26 Beta2) / NEXT native app development — the Huawei mobile OS family that runs independently of Android (AOSP-free since HarmonyOS NEXT, released 2024). Primary language is **ArkTS** (a strict, statically-checked superset of TypeScript) and the primary UI framework is **ArkUI** (declarative, state-driven). Use API 24 Release as the default production baseline; use API 26 Beta2 only for preview, adaptation, and early compatibility work.
+Covers HarmonyOS 7 (API 26.0.0, Release 2026-08-29) / 6.1.1 (API 24, Release, compatibility floor) / 6.1.0 (API 23) / NEXT native app development — the Huawei mobile OS family that runs independently of Android (AOSP-free since HarmonyOS NEXT, released 2024). Primary language is **ArkTS** (a strict, statically-checked superset of TypeScript) and the primary UI framework is **ArkUI** (declarative, state-driven). Use API 26.0.0 Release as the production default for new code; keep API 24 as the compatibility floor, and gate API 26 behavior changes on `targetSdkVersion >= 26.0.0`.
 
 ## Platform snapshot
 
 | Item | Value |
 |---|---|
-| OS | **HarmonyOS 6.1** (stable, released 2026/04/20, API 23). **HarmonyOS 6.1.1** (Release, released 2026/05/26, API 24). **HarmonyOS 7 / 26.0.0 Beta2** (developer preview; Beta1 2026/06/12, Beta2 2026/07/28, API 26). Pure HarmonyOS, AOSP-free |
-| Language | **ArkTS** (primary), **Cangjie** (beta), C/C++ via NAPI |
+| OS | **HarmonyOS 26.0.0 / HarmonyOS 7** (API 26.0.0, Release 2026/08/29; Beta1 2026/06/12, Beta2 2026/07/28. Consumer release announced 2026/09/07, upgrade opened 2026/09/28). **HarmonyOS 6.1.1** (Release 2026/05/26, API 24 — compatibility floor). **HarmonyOS 6.1.0** (2026/04/20, API 23). Pure HarmonyOS, AOSP-free |
+| Language | **ArkTS** (primary; ArkTS 1.2 static typing is documented upstream — HarmonyOS ship status unconfirmed, see `references/arkts-1.2-interop.md`), **Cangjie** (beta), C/C++ via NAPI |
 | UI framework | **ArkUI** declarative (ArkUI-X for cross-platform) |
 | Compiler | **ArkCompiler** — AOT to native machine code; LiteActor concurrency |
 | Package manager | **ohpm** — `oh-package.json5`; registry at DevEco Service (OHPM Central) |
-| IDE | **DevEco Studio 6.1.1 Release** (6.1.1.280; API 24 production). **DevEco Studio 26.0.0 Beta2** (26.0.0.621; API 26 preview) |
+| IDE | **DevEco Studio 26.0.0 Release** (26.0.0.821; API 26.0.0, bundles HarmonyOS SDK 26.0.0.105). **DevEco Studio 6.1.1 Release** (6.1.1.280; API 24). Beta lineage: 26.0.0.621 (Beta2), 26.0.0.461 (Beta1) |
 | App model | **Stage model** (FA model is legacy — don't use in new apps) |
 | Packaging | HAP (entry/feature), HSP (shared package), HAR (static archive), atomic .app |
-| Recommended API | **Use API 24 Release for production. Use API 26 Beta2 only for HarmonyOS 7 preview/adaptation.** |
+| Recommended API | **Use API 26.0.0 Release for new code. Keep API 24 as the compatibility floor. API 26 behavior changes apply only when `targetSdkVersion >= 26.0.0`.** |
 | Sample catalog | https://developer.huawei.com/consumer/cn/samples/ |
 
 **Release timeline (recent):**
 - HarmonyOS 6.0.1(21) — 2025/11/25 (initial stable with Mate 80 series)
 - HarmonyOS 6.0.2(22) — 2026/01/23 (incremental update)
 - HarmonyOS 6.0.0.328 Pollen Beta(23) — 2026/02/28 (closed beta, 25 models)
-- HarmonyOS 6.1(23) — 2026/04/20 (stable general release)
+- HarmonyOS 6.1.0(23) — 2026/04/20 (stable general release)
 - HarmonyOS 6.1.1(24) Beta 1 — 2026/04/30 (developer beta)
 - HarmonyOS 6.1.1(24) Release — 2026/05/26 (API 24 Release; DevEco Studio 6.1.1.280)
-- HarmonyOS 7 / 26.0.0 Beta1 — 2026/06/12 (API 26 developer preview; DevEco Studio 26.0.0.461)
+- HarmonyOS 7 / 26.0.0 Beta1 — 2026/06/12 (API 26 Beta1; DevEco Studio 26.0.0.461)
 - HarmonyOS 7 / 26.0.0 Beta2 — 2026/07/28 (API 26 Beta2; DevEco Studio 26.0.0.621; 随 HDC.2026 发布)
+- **HarmonyOS 7 / 26.0.0 Release — 2026/08/29 (API 26.0.0 Release; DevEco Studio 26.0.0.821; HarmonyOS SDK 26.0.0.105; 系统版本 7.0.0.105 SP6)** ，随后 7.0.0.109 SP6
+- **HarmonyOS 7 消费者正式版 — 2026/09/07 发布，2026/09/28 开放正式版升级**（reported by 第三方媒体转载的华为官方公告；以华为官方发布页为准）
+
+Baseline policy, the toolchain table, and answering rules live in `references/platform-baseline.md`; the API 26.0.0 release detail, breaking changes, and new kits live in `references/api26.md`.
 
 ### What's new in API 23 (HarmonyOS 6.1)
 
@@ -90,15 +95,15 @@ Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 de
 - **New/expanded Kits** — Content Embed Kit, Enterprise Threat Protection Kit, FAST Kit, NearLink Kit, Network Boost Kit, Screen Time Guard Kit, Device Security Kit, Desktop Extension Kit.
 - **DevEco Studio** — API 24 projects, Hot Reload for C++ and resource edits, expanded AppFreeze parsing, ComMemory UI memory analysis, `strictCheckerOnly` for faster strict syntax checks.
 
-### HarmonyOS 7 / API 26 Beta2 preview (2026/07/28)
+### HarmonyOS 7 / API 26.0.0 Release (2026/08/29)
 
-**Status (checked 2026/08/16):** developer Beta, not the default production baseline. API 26.0.0 **Beta2** was released 2026/07/28 (with HDC.2026); Beta1 was 2026/06/12. No Beta3, RC, or Release yet. Mention API 26 features only when the user asks about HarmonyOS 7, API 26, HDC 2026, preview adaptation, or Beta capabilities. For production code, prefer API 24 Release unless the project explicitly targets API 26 preview.
+**Status (checked 2026/09/30):** **released** — no longer a developer preview. API 26.0.0 was released 2026/08/29 (Beta1 2026/06/12 with HDC.2026, Beta2 2026/07/28); it is the API level of HarmonyOS 7 and matches OpenHarmony 7.0 Release. HarmonyOS 7 consumer release was announced 2026/09/07 and the official upgrade opened 2026/09/28. As of 2026/09/30 no newer release is published (no 26.0.1, no 27.0.0; there is no API 25). **Production default for new code is API 26.0.0; API 24 (6.1.1 Release) stays the compatibility floor** — at the API 26.0.0 release the reported device share was API 24 ≈ 84.93% and API 26.0.0 ≈ 4.65%. Do not describe API 26 as preview-only or Beta-only. Read `references/api26.md` for the release detail and `references/immersive-material.md` before advising on material/blur behavior.
 
-**Developer kit baseline (Beta2):** HarmonyOS SDK **26.0.0 Beta2** (OpenHarmony SDK `Ohos_sdk_public 26.0.0.32`, API Version 26.0.0 Beta2) and DevEco Studio **26.0.0 Beta2 (26.0.0.621)**, both released 2026/07/28. Beta1 toolchain was SDK `Ohos_sdk_public 26.0.0.23` / DevEco Studio 26.0.0.461 (2026/06/12). Toolchain: HarmonyOS Emulator **26.0.0.200**, Hvigor/hvigorw **6.26.1**, ohpm **26.0.0.410**, Node.js **24.14.1**, hstack **6.0.0**, `compileSdkVersion: "26.0.0"`, `targetSdkVersion: "4.0.0(10)~26.0.0"`.
+**Developer kit baseline (Release):** HarmonyOS SDK **26.0.0.105** (`Ohos_sdk_public 26.0.0.105`) with DevEco Studio **26.0.0 Release (26.0.0.821)**, both 2026/08/29; system builds **7.0.0.105 SP6** (2026/08/28) → **7.0.0.109 SP6**. Beta lineage (historical): SDK `Ohos_sdk_public 26.0.0.32` / DevEco Studio 26.0.0.621 (Beta2, 2026/07/28), SDK `26.0.0.23` / DevEco Studio 26.0.0.461 (Beta1, 2026/06/12); the Beta-era Hvigor 6.26.1 / ohpm 26.0.0.410 / Emulator 26.0.0.200 values are historical — take exact versions from the installed toolchain. `compileSdkVersion: "26.0.0"`, `targetSdkVersion: "4.0.0(10)~26.0.0"`.
 
 **Version-number rule:** Starting with API **26.0.0**, HarmonyOS developer kit API versions use SemVer (`X.Y.Z`) instead of the legacy `X.Y.Z(N)` format. `X` means a major version with substantial capabilities or adaptation-impacting changes, `Y` means a minor version with new capabilities, and `Z` means compatible fixes/small improvements.
 
-**High-value API 26 Beta1 changes:**
+**High-value API 26 changes first shipped in Beta1:**
 - **Ability Kit** — AgentCard support; ArkTS script-based app Skill development; package-name + clone-index app name lookup; ArkTS APIs for script management; C APIs for `ModularObjectExtensionAbility`.
 - **Accessibility Kit** — system care mode integration for elder-friendly app experiences.
 - **Accessory Kit** — new Kit for accessory wake-up, system service linkage, on-demand scheduling, and secure trust management.
@@ -136,7 +141,7 @@ Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 de
 - **Spatial Recon Kit** — 3DGS gaussian editing and spatial photo generation from a single photo.
 - **Scan Kit** — query support for default/custom scan UI on the current device.
 
-**High-value API 26 Beta2 additions (released 2026/07/28):**
+**High-value API 26 additions from Beta2 (released 2026/07/28, included in the 2026/08/29 Release):**
 - **Ability Kit** — C APIs for `ModularObjectExtensionAbility` (declaration with lifecycle callbacks, context with UIAbility launch / self-destruction / IPC object creation, connection management); NativeAbility data info; ExtensionAbility connection-option callbacks; autofill request info definition; `pluginBundleManager` for installing/uninstalling self-distributed plugins.
 - **Account Kit** — Huawei ID 亲密圈 (close-circle) service for adding/selecting relatives and friends.
 - **Agent Framework Kit** — A2A protocol communication between agents via `AgentAbilityExtension`.
@@ -159,18 +164,20 @@ Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 de
 - **ArkUI** — `NodeAdapter.onAttachToNode`, mouse `rawDeltaX/rawDeltaY`, `LayoutPolicy.matchParent`, `EmbeddedComponent` focus, `WithTheme`, `queryNavDestinationInfo` / `onResult` on the home `NavDestination`, `NODE_SWIPER_EVENT_ON_CONTENT_DID_SCROLL`, and shadow blur radius behavior have adaptation-impacting changes. Beta2 adds a `List` `onScrollVisibleContentChange` event behavior change (effective when `targetSdkVersion >= 26.0.0`).
 - **ArkWeb** — Chromium stays 144; Beta2 changes the Cookie storage directory (all apps — adapt any code reading cookie files directly).
 - **Permissions** — `ohos.permission.READ_IMAGEVIDEO`, `getUidRxBytes`, `getUidTxBytes`, and general permission policy behavior change under API 26 rules.
-- **UX** — form controls minimum touch target changes from 28vp to 32vp for Button/Button-style Toggle/Select/Chip/ChipGroup; built-in text line breaking and small-language line height are optimized; Dialog, Toast, AlphabetIndexer, and text selection menu enable immersive system material by default. Disable globally with `metadata` name `ohos.arkui.UIMaterial.state` value `disable`, or per component with `uiMaterial.Material.empty`.
+- **UX** — form controls minimum touch target changes from 28vp to 32vp for Button/Button-style Toggle/Select/Chip/ChipGroup; built-in text line breaking and small-language line height are optimized; Dialog, Toast, AlphabetIndexer, and text selection menu enable immersive system material by default. Disable globally with `metadata` name `ohos.arkui.UIMaterial.state` value `disable`, or per component with `uiMaterial.Material.empty`. Read `references/immersive-material.md` — the material scope was narrowed on 2026/09/03.
 
-**API 26 V2 behavior-scope notes (official docs updated 2026/06/17):**
+**API 26 V2 behavior-scope notes (official docs updated 2026/06/17; verify against the Release changelog — doc IDs `*-7003` / `changelogs-in-26003`):**
 - **Always effective:** JSVM/Chromium 132 → 144, async function type detection, `fastConvertToJSObject` sibling-text preservation, ArkUI `rawDeltaX/rawDeltaY`, Stage-only ArkUI API constraints, home `NavDestination` `queryNavDestinationInfo` / `onResult`, `@ReusableV2` dynamic reuse identifiers, ArkWeb Chromium 132 → 144, `READ_IMAGEVIDEO` permission behavior, and notofonts small-language font updates.
 - **Effective only when `targetSdkVersion >= 26.0.0`:** In-House package-change event controls, JSVM Wasm jitless default behavior, `NodeAdapter.onAttachToNode`, attributed-string paragraph style with leading `CustomSpan` / `ImageAttachment`, `LayoutPolicy.matchParent`, `EmbeddedComponent` focus, `WithTheme`, `NODE_SWIPER_EVENT_ON_CONTENT_DID_SCROLL`, component shadow blur radius, `getUidRxBytes` / `getUidTxBytes`, permission policy changes, 32vp form-control touch targets, built-in text style optimization, immersive material defaults, and half-modal centered dialog max height.
 
-**DevEco Studio 26.0.0 Beta1 additions:**
+**DevEco Studio 26.0.0 additions (Beta1 list, carried into the Release):**
+- **26.0.0 Release (26.0.0.821)** adds on-demand module loading for code indexing, project-wide Code Scanner resource-leak checks, simultaneous UI preview across 8 breakpoint tiers, a Car-device emulator with remote emulator control, device screen mirroring, and crash-dump parsing with exception stacks.
+- **6.1.1 Release** additions remain valid for API 24 projects: API 24 project support, Hot Reload for C++ and resources, richer AppFreeze log parsing (Binder / main-thread task queue / sampled stacks), and the ComMemory template.
 - AI coding: custom Agent token usage display, conversation rollback, project Q&A with MCP Market tools / LSP tools / ArkTS and C++ semantic code search, built-in Inline Chat commands such as File Comments and Parameter Validation, `UI Verification` tool, and custom Commands.
 - Editing/debugging: API 26.0.0 projects, Load/Unload Modules, ArkUI state-variable relation viewer, Code Scanner resource-leak checks, custom Clang-Tidy, ACL permission requests, 8-breakpoint preview, Car multi-screen emulator, scenario simulation, remote emulator control, Native debug startup acceleration, device projection, SQL-highlight database debugging, dump-file stack parsing, HiLog tag filtering, AppAnalyzer report diagnosis, and diagnostics for OOM/app-freeze/resource leaks.
 - Performance analysis: Memory lane adds ArkWeb PA and JS Heap sub-lanes for Malloc allocation and ArkWeb Render-process JS heap usage, plus a Statistics tab for VMA counts and PSS memory min/max/average.
 - Build/release: `apiCompatibilityCheck`, `tsImportSoCheck`, module `nativeLib.enableSoDirCollection`, `syncNative`, Hvigor `getAllDependencyInfo`, AppGallery package re-signing, Linux emulator support, and ohpmrc `auto_skip_install`, `metadata_cache_effective`, `metadata_cache`, plus exact-version metadata queries.
-- Compatibility changes: DevEco Studio and Command Line Tools upgrade Node.js from 18 to **24**; custom Hvigor/ohpm/ohpm-repo plugins need Node.js 24 adaptation. `ohpm-repo 5.5.1` no longer depends on `node-fetch`; plugins that relied on that bundled dependency must replace it or install `node-fetch@2.7.0` themselves. DevEco Studio 26.0.0 **Beta2** upgrades the IDE 底座 and enables the new UI by default — third-party IDE plugins must adapt; ArkUI-X projects switch to a newer gradle version.
+- Compatibility changes (Beta-era, **unverified**): a Beta1 note claimed DevEco Studio and Command Line Tools upgrade Node.js from 18 to 24; this could not be confirmed against an official Huawei source (checked 2026/09/30). Verify the bundled Node.js version before acting on it. The same note says `ohpm-repo 5.5.1` no longer depends on `node-fetch`; plugins that relied on that bundled dependency must replace it or install `node-fetch@2.7.0` themselves. DevEco Studio 26.0.0 Beta2 upgrades the IDE 底座 and enables the new UI by default — third-party IDE plugins must adapt; ArkUI-X projects switch to a newer gradle version.
 
 **DevEco Testing 26.0.0 Beta1:**
 - Stability testing can target specified entry points to trigger stability issues and expands memory-leak detection coverage.
@@ -180,16 +187,16 @@ Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 de
 **HarmonyOS AI development tools and capability highlights (officially surfaced 2026/06):**
 - **DevEco Code** — a HarmonyOS-focused AI coding Agent for planning, code generation, build/run, device logs, UI verification, ArkTS checking, knowledge lookup, debugging, and iterative repair. It complements DevEco Studio rather than replacing the SDK/toolchain.
 - **DevEco CLI** — Agent-friendly command-line access to project creation, syntax checks, build, device run/debug, and other HarmonyOS engineering actions; use it for third-party coding Agents, automation, and CI/CD integration.
-- **CodeGenie** — the DevEco Studio AI assistant/plugin remains a separate product surface. Huawei lists CodeGenie 6.1.1 Release, Command Line Tools 6.1.1 Release, and DevEco Studio 6.1.1 Release for the production toolchain; the API 26 toolchain remains Beta2.
+- **CodeGenie** — the DevEco Studio AI assistant/plugin remains a separate product surface. Huawei lists CodeGenie 6.1.1 Release, Command Line Tools 6.1.1 Release, and DevEco Studio 6.1.1 Release for the API 24 toolchain; for API 26.0.0 the toolchain is Release (DevEco Studio 26.0.0.821).
 - **Agent Framework Kit** — launches a combination of system Agents from an app through UI controls. Keep it distinct from Intents Kit (declaring app intents), ArkTS script-based app Skills (exposing app capabilities), and device-side A2A (Agent-to-Agent communication).
 - **HarmonyOS 7 experience areas** — spatial-audio processing nodes, app/game quick start, cold-start network preconnection, QUIC and weak-network live-stream optimization, and LTPO variable frame rate are highlighted platform capabilities; confirm the installed API 26 SDK and device support before presenting them as generally available APIs.
-- **API 26 cloud debugging** — AGC remote-device cloud debugging can filter devices by API 26 or system version `7.0.0.23` for early compatibility validation.
+- **API 26 cloud debugging** — AGC remote-device cloud debugging can filter devices by API 26 or system version `7.0.0.105` / `7.0.0.109` for compatibility validation. (The Beta-era filter value was `7.0.0.23`.)
 
 For tool selection, capability boundaries, and answer rules, read `references/ai-development-tools.md`.
 
 ### Official documentation updates (2026/06/12)
 
-As of 2026/06/12 no newer SDK had followed 26.0.0 Beta1 (Beta2 arrived 2026/07/28 — see the API 26 preview section above), but the documentation change log added several developer-facing guides worth surfacing in answers:
+As of 2026/06/12 no newer SDK had followed 26.0.0 Beta1 (Beta2 arrived 2026/07/28, and the Release followed on 2026/08/29 — see the API 26.0.0 section above), but the documentation change log added several developer-facing guides worth surfacing in answers:
 
 - **Ability Kit app lifecycle** — new guides cover full app lifecycle state changes, startup configuration such as window mode and start page path, quick-start launch, user/app/system exits, and active/passive restart flows.
 - **Ark Intelligence Development Framework** — new guides cover the framework overview, Intent Framework development, ArkTS script-based app Skill development, and device-side A2A framework development for exposing app capabilities to system agents such as Xiaoyi.
@@ -199,12 +206,22 @@ As of 2026/06/12 no newer SDK had followed 26.0.0 Beta1 (Beta2 arrived 2026/07/2
 
 ### Official documentation updates (2026/07)
 
-HarmonyOS 7 SDK advanced from Beta1 to Beta2 on 2026/07/28 (see the API 26 preview section above); several official guides also affect implementation and review answers:
+HarmonyOS 7 SDK advanced from Beta1 to Beta2 on 2026/07/28 and reached Release on 2026/08/29 (see the API 26.0.0 section above); several official guides also affect implementation and review answers:
 
 - **Native C API compatibility** — SDK API 22+ can use weak references with `APIAVAILABLE` for APIs newer than `compatibleSdkVersion`. Correct link dependencies, weak-library configuration for libraries absent on old devices, runtime fallbacks, and tests on both the oldest compatible device and the new-API device are mandatory. Compilation alone is insufficient because a missing dependency can fail only at runtime. Read `references/native-api-compatibility.md`.
 - **Linux CI pipeline** — use JDK 17 and the matching Command Line Tools, prefer their bundled Node.js, install project/module dependencies, run Hvigor with `--no-daemon`, protect signing secrets, install signed HAPs with HDC, and enable `caseSensitiveCheck` to expose filename/import mismatches hidden by Windows or macOS. Read `references/build-sign-release.md`.
 - **ArkTS leak detection** — use `@ohos.hiviewdfx.jsLeakWatcher` primarily in development; production use should be limited to a small gray-release population. Combine it with JS Heap snapshots, HWASan/AddrSanitizer, AppFreeze, and HiAppEvent according to the suspected layer. Read `references/performance.md`.
 - **Container-responsive ArkUI** — use `ContainerReader` when layout must react to the containing component rather than the window. API 26 also documents centralized reuse pools for `@Reusable` / `@ReusableV2`; reuse requires explicit lifecycle cleanup and state reset. Read `references/arkui-components.md`.
+
+### Official updates (2026/09) — API 26.0.0 ships
+
+- **API 26.0.0 Release (2026/08/29)** — HarmonyOS SDK 26.0.0.105 with DevEco Studio 26.0.0 Release (26.0.0.821). Release notes use the doc-ID pattern `*-7003` / `changelogs-in-26003`. Read `references/api26.md`.
+- **HarmonyOS 7 consumer release** — announced 2026/09/07, official upgrade opened 2026/09/28 (reported via third-party mirrors of Huawei's announcement). Wording that treats HarmonyOS 7 as a preview is out of date.
+- **沉浸光感 effective scope narrowed (2026/09/03)** — full treatment now applies to dialog components, dialog APIs, and Slider/Toggle/Select; all other components only inside a `Navigation` / `NavDestination` title bar or a `Tabs` bottom TabBar with `barPosition: BarPosition.End`. Gated by `targetSdkVersion >= 26.0.0`. Read `references/immersive-material.md`.
+- **`ohos.permission.DEFAULT_WEB_BROWSER`** — new default-browser gate; enforcement arrives in the release after 26.0.0. Read `references/permissions.md`.
+- **ArkTS 1.2 (static ArkTS)** — documented upstream with its own interop rules; HarmonyOS 26.0.0 enablement is unconfirmed. Read `references/arkts-1.2-interop.md` and keep the caveat.
+
+Sources for this section: https://developer.huawei.com/consumer/cn/doc/harmonyos-releases/ (release notes, doc IDs `*-7003` / `changelogs-in-26003`), https://developer.huawei.com/consumer/cn/deveco-studio/ (IDE/SDK downloads). Details that only appear in third-party mirrors of Huawei's announcements are marked "reported".
 
 ## Project layout (Stage model)
 
@@ -263,7 +280,7 @@ export default class EntryAbility extends UIAbility {
 ```ts
 import { common, Want } from '@kit.AbilityKit';
 
-const ctx = getContext(this) as common.UIAbilityContext;
+const ctx = this.getUIContext().getHostContext() as common.UIAbilityContext;
 const want: Want = {
   bundleName: 'com.example.app',
   abilityName: 'DetailAbility',
@@ -453,7 +470,7 @@ List() {
 .cachedCount(5)  // preload 5 items off-screen
 ```
 
-**`@Reusable` components** (69% faster component creation):
+**`@Reusable` components** (Huawei best-practice material reports ~69% faster component creation — indicative, not a guarantee):
 ```ts
 @Reusable
 @Component
@@ -472,7 +489,7 @@ Rules: only works within same parent; don't nest `@Reusable` inside `@Reusable`;
 **Layout performance rules:**
 - Max 3 levels of nesting — each level adds layout cost
 - Use `if/else` over `.visibility()` — hidden components still participate in layout
-- Use `RelativeContainer` to flatten deep Row/Column/Flex hierarchies (documented 26% improvement)
+- Use `RelativeContainer` to flatten deep Row/Column/Flex hierarchies (Huawei best-practice material reports ~26% improvement — indicative)
 - Set explicit dimensions on `List` inside `Scroll` — without them ALL children load at once
 - Avoid `@StorageLink` for frequently-changing data — propagates to all subscribers
 
@@ -631,10 +648,14 @@ TextArea({ placeholder: 'Enter description', text: $$this.desc })
 
 Two-way binding with `$$`: `TextInput({ text: $$this.value })` — no `onChange` needed.
 
-### Router — basic page navigation
+### Router — legacy page navigation (prefer Navigation)
 
 ```ts
 import { router } from '@kit.ArkUI';
+
+// Legacy module-level router API — deprecated from API 18.
+// New code should use Navigation + NavPathStack; migrating legacy code should at
+// least move to this.getUIContext().getRouter().
 
 // Push to new page (with params)
 router.pushUrl({
@@ -652,13 +673,13 @@ router.back();
 router.replaceUrl({ url: 'pages/Login' });
 ```
 
-> **Note**: For Navigation-based apps, prefer `NavPathStack.pushPath()` over Router.
+> **Note**: For Navigation-based apps, prefer `NavPathStack.pushPath()` over Router. The module-level `router` APIs shown above are deprecated from API 18 — legacy code should at minimum use `this.getUIContext().getRouter()`, and new pages should use `Navigation` + `NavPathStack`.
 
 ### AlertDialog / Toast
 
 ```ts
-// Alert dialog
-AlertDialog.show({
+// Alert dialog — UIContext form (`AlertDialog.show()` is deprecated from API 18)
+this.getUIContext().showAlertDialog({
   title: 'Confirm',
   message: 'Delete this item?',
   primaryButton: { value: 'Cancel', action: () => {} },
@@ -696,7 +717,7 @@ this.getUIContext().getPromptAction().showToast({
 this.context.eventHub.emit('dataReady', { items: [...] });
 
 // In page — subscribe
-const context = getContext(this) as common.UIAbilityContext;
+const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 context.eventHub.on('dataReady', (data: Record<string, ESObject>) => {
   this.items = data.items;
 });
@@ -705,9 +726,9 @@ context.eventHub.on('dataReady', (data: Record<string, ESObject>) => {
 context.eventHub.off('dataReady');
 ```
 
-### HarmonyOS 6.0 visual effects (沉浸光感视效 / 液态玻璃)
+### Immersive material & visual effects (沉浸光感 / 液态玻璃)
 
-HarmonyOS 6.0 (API 23) introduces system-level "Immersive Light Perception" visual effects. Users enable via Settings → Desktop & Personalization → Immersive Light Effect (强/均衡/弱). Developers achieve similar effects through these ArkUI attributes:
+HarmonyOS 6.1 (API 23) introduced system-level "Immersive Light Perception" visual effects, and HarmonyOS 7 (API 26.0.0) turns the same idea into the `systemMaterial` configuration surface. Users enable the system effect via Settings → Desktop & Personalization → Immersive Light Effect (强/均衡/弱). For the API 26 material system and its 2026/09 narrowed effective scope, read `references/immersive-material.md`. Developers achieve similar effects through these ArkUI attributes:
 
 **BlurStyle enum (API 9–11):**
 
@@ -778,7 +799,7 @@ Flex()
     bloom: 0.5                            // luminous intensity 0–1
   })
 ```
-Up to 12 light sources can illuminate a single component. HarmonyOS 6.0 adds dual-edge flow light and UV background flow light effects.
+Up to 12 light sources can illuminate a single component. HarmonyOS 6.1 adds dual-edge flow light and UV background flow light effects.
 
 **systemMaterialEffect (HDS layer, API 23+, HarmonyOS-only SDK):**
 ```ts
@@ -790,7 +811,7 @@ Column() { /* content */ }
     materialLevel: hdsMaterial.MaterialLevel.ADAPTIVE
   })
 ```
-Note: `hdsMaterial` is part of the closed-source HarmonyOS Design System (HDS), not OpenHarmony. Requires HarmonyOS 6.0 SDK (API 23+).
+Note: `hdsMaterial` is part of the closed-source HarmonyOS Design System (HDS), not OpenHarmony. Requires HarmonyOS 6.1 SDK (API 23+). On API 26.0.0, prefer the official `systemMaterial` configuration — see `references/immersive-material.md`.
 
 ### State-management decorators
 
@@ -840,7 +861,7 @@ Arrays of `@Observed` instances require `@ObjectLink` in the row component — p
 
 ### V2 state decorators (API 12+, **stable since API 23** — recommended for new code)
 
-> V2 decorators have **graduated from experimental to stable** as of HarmonyOS 6.1 (API 23). Official recommendation: migrate to V2 for new projects.
+> V2 decorators have **graduated from experimental to stable** as of HarmonyOS 6.1 (API 23). Official recommendation: migrate to V2 for new projects. API 26.0.0 adds new components built on V2 — see `references/arkui-components.md`.
 
 | V1 | V2 replacement | Change |
 |---|---|---|
@@ -1087,7 +1108,6 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 | Image Kit | `ImageKit` | Image decoding, transformation, EXIF |
 | Media Kit | `MediaKit` | AVPlayer, AVRecorder (unified playback/recording) |
 | Media Library Kit | `MediaLibraryKit` | photoAccessHelper, media library CRUD |
-| Scan Kit | `ScanKit` | QR/barcode scanning |
 
 **图形 Graphics**
 
@@ -1115,6 +1135,40 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 | Kit | Import key | Purpose |
 |---|---|---|
 | Performance Analysis Kit | `PerformanceAnalysisKit` | hilog, HiAppEvent, crash analysis |
+
+**New / recently added Kits (API 24 – API 26.0.0)**
+
+Import names follow the installed SDK; the Kit name is the stable identifier.
+
+| Kit | Introduced / notable in | Purpose |
+|---|---|---|
+| Accessory Kit | API 26.0.0 (new) | Accessory wake-up, system-service linkage, on-demand scheduling, secure trust management |
+| AOD Navigation Kit | API 26.0.0 (new) | Always-on-display navigation: route/mileage visible on the lock screen, low power |
+| Service Support Kit | API 26.0.0 (new) | Device hardware inspection for enterprise-developer apps |
+| Agent Framework Kit | API 26.0.0 (breaking) | Launch system Agent combinations from app UI; `OnDataCallback.method` and `RequestContext.getClientSessionId()` break when `targetSdkVersion >= 26.0.0` — see `references/api26.md` |
+| AppGallery Kit | API 26.0.0 | Pause download tasks; Car-device attribution, privacy, icon management, on-demand distribution |
+| Service Collaboration Kit | API 26.0.0 | Tap-to-connect (碰一碰): connect, transfer information, disconnect |
+| Driver Development Kit | API 26.0.0 | Query external USB hubs; develop user-mode drivers |
+| Enterprise Space Kit | API 26.0.0 | Query dual-space state; determine whether the workspace is enterprise space |
+| Enterprise Data Guard Kit | API 26.0.0 | File classification policy APIs `getPolicy` / `isKia` |
+| Data Augmentation Kit | API 26.0.0 | Mail intelligence: classification, summarization, todo extraction |
+| Preview Kit | API 26.0.0 | File acceleration scanning, preload-strategy customization, availability query |
+| PDF Kit | API 26.0.0 | Custom rendering style, binary-data loading, view↔PDF coordinate conversion, region-to-image |
+| Online Authentication Kit | API 26.0.0 | DID key generation, credential import/query/delete, data signing |
+| Scenario Fusion Kit | API 26.0.0 | Scenario sharing Button for image, video, and text |
+| Ringtone Kit | API 26.0.0 | Ringtone file-size limits |
+| XEngine Kit | API 26.0.0 | Split display/control for foldables; Vulkan-based AI super-resolution |
+| Spatial Recon Kit | API 26.0.0 | Tiled 3DGS rendering, gaussian editing, single-photo spatial photos |
+| Input Kit | API 26.0.0 | Keyboard and mouse input-event injection |
+| Content Embed Kit | API 24 | Cross-app document embedding and collaborative editing |
+| Enterprise Threat Protection Kit | API 24 | Enterprise file threat scan, isolation, restore, delete |
+| FAST Kit | API 24 | Concurrent hash tables, vector operations, filters; API 26.0.0 adds real/inverse FFT |
+| NearLink Kit | API 24 | NearLink device capability and partner-device management |
+| Network Boost Kit | API 24 | Network transfer optimization, low-power transfer mode |
+| Screen Time Guard Kit | API 24 | Screen-time authorization and app-control policy |
+| Desktop Extension Kit | API 24 | Desktop/status-bar integration scenarios |
+
+Kit names follow the official SDK catalog (https://developer.huawei.com/consumer/cn/sdk/); the API 26.0.0 additions are reflected in the release changelog (`changelogs-in-26003`). Import names may differ from the Kit name — always copy the import from the installed SDK.
 
 ### Photo/video picker (correct API — `picker.PhotoViewPicker` is deprecated)
 
@@ -1242,7 +1296,7 @@ ws.close();
 ```ts
 import { common } from '@kit.AbilityKit';
 
-const context = getContext(this) as common.UIAbilityContext;
+const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
 // Open navigation app with destination
 context.startAbilityByType('navigation', {
@@ -1302,9 +1356,9 @@ SymbolGlyph($r('sys.symbol.bell_fill'))
   .symbolEffect(new BounceSymbolEffect(EffectScope.WHOLE), true)
 ```
 
-**Confirmed working names** (SDK 6.0.1): `xmark` · `plus` · `minus` · `checkmark` · `chevron_right` · `chevron_left` · `star` · `star_fill` · `bell` · `bell_fill` · `doc` · `video` · `mic` · `mic_fill` · `clock` · `trash` · `pencil` · `camera` · `person`
+**Confirmed working names** (verified on SDK 6.0.1 — the symbol set changes between SDKs, re-check): `xmark` · `plus` · `minus` · `checkmark` · `chevron_right` · `chevron_left` · `star` · `star_fill` · `bell` · `bell_fill` · `doc` · `video` · `mic` · `mic_fill` · `clock` · `trash` · `pencil` · `camera` · `person`
 
-**Names that do NOT exist** (common mistakes): `photo` · `doc_richtext` · `sparkles` · `checklist` · `image` (use `doc` or `camera` instead) · `location_fill` (use text label instead)
+**Names that do NOT exist** (common mistakes, SDK 6.0.1 list): `photo` · `doc_richtext` · `sparkles` · `checklist` · `image` (use `doc` or `camera` instead) · `location_fill` (use text label instead)
 
 Find valid names: https://developer.huawei.com/consumer/cn/design/harmonyos-symbol
 
@@ -1312,7 +1366,13 @@ Find valid names: https://developer.huawei.com/consumer/cn/design/harmonyos-symb
 
 DevEco Studio 6.x requires **additional Hvigor infrastructure files**. Without them the IDE shows "工程结构及配置需要升级".
 
-**Current API 24 Release toolchain (HarmonyOS 6.1.1, 2026/05/26):**
+**API 26.0.0 Release toolchain (HarmonyOS 7, 2026/08/29) — production default:**
+- DevEco Studio: **26.0.0 Release (26.0.0.821)**
+- HarmonyOS SDK: **26.0.0.105** (`Ohos_sdk_public 26.0.0.105`)
+- `compileSdkVersion`: **26.0.0**
+- System builds: **7.0.0.105 SP6** → **7.0.0.109 SP6**
+
+**API 24 Release toolchain (HarmonyOS 6.1.1, 2026/05/26) — compatibility floor:**
 - DevEco Studio: **6.1.1 Release (6.1.1.280)**
 - HarmonyOS SDK: **6.1.1 Release** (OpenHarmony SDK `Ohos_sdk_public 6.1.1.125`, API 24 Release)
 - Hvigor / hvigorw: **6.24.2**
@@ -1370,7 +1430,7 @@ API 24 DevEco Studio adds `strictCheckerOnly` under project-level `build-profile
 
 API 24 also adds project-level `oh-package.json5` `properties` for multi-environment dependency management. Use it for environment-specific dependency values instead of duplicating package files.
 
-## ArkTS strict-mode compiler errors (SDK 6.0.1)
+## ArkTS strict-mode compiler errors (verified on SDK 6.0.1 — re-check on API 24/26)
 
 ### No object literals as types
 ```ts
@@ -1423,13 +1483,13 @@ function isTablet(): boolean {
 3. **`@State` on nested objects** — changes to nested props don't trigger updates; use `@Observed`/`@ObjectLink` or reassign the whole object.
 4. **Array item updates** — replace the item (`arr[i] = newItem`) or use `@Observed` on the item class.
 5. **Resource references** — use `$r('app.string.foo')`, `$r('app.media.icon')`, not string paths.
-6. **`getContext(this)`** inside a component returns the `UIAbilityContext`; cast explicitly.
+6. **`getContext(this)` is deprecated** — inside a component use `this.getUIContext().getHostContext() as common.UIAbilityContext`; module-level helpers must receive the context as a parameter.
 7. **Async in `build()`** is forbidden — load data in `aboutToAppear()` and store in `@State`.
 8. **Permissions must be declared AND requested at runtime** for user-grant permissions.
 9. **ohpm** is the package manager (similar to npm) — dependencies live in `oh-package.json5`.
 10. **Preview on device** — DevEco Previewer doesn't fully simulate; always test on real HarmonyOS device or emulator.
 11. **Navigation has no `hideSideBar`** — use `.hideBackButton(true)` instead.
-12. **`promptAction.showToast()` is deprecated** — use `getUIContext().getPromptAction().showToast(...)` instead; wrap in try-catch for safety.
+12. **Legacy UI-context APIs are deprecated** — `promptAction.showToast()`, `router.*`, `animateTo()`, and `AlertDialog.show()` all have `UIContext` replacements. See the migration table in the API 21 section; wrap `showToast` and dialog calls in try-catch for safety.
 13. **Floating FAB button blocks last list item** — use `Navigation.menus()` for primary action buttons, or add bottom padding to List equal to FAB height + margin.
 14. **Named callbacks for `on/off`** — anonymous functions can't be unregistered. Always store references:
     ```ts
@@ -1459,7 +1519,7 @@ function isTablet(): boolean {
 |---|---|
 | **JS_ERROR** | ArkTS/JS runtime exceptions (most common) — `TypeError: Cannot read property 'x' of undefined` |
 | **CPP_CRASH** | Native C/C++ crash (SIGSEGV, SIGABRT) |
-| **APP_FREEZE** | Main thread blocked >6s (ANR equivalent). Root causes: thread locks (57%), system resources (14%), heavy main-thread work (9%) |
+| **APP_FREEZE** | Main thread blocked >6s (ANR equivalent). Reported root-cause distribution: thread locks (57%), system resources (14%), heavy main-thread work (9%) — vendor-published statistics, treat as indicative |
 | **OOM** | Out-of-memory kill |
 
 **Global error handler:**
@@ -1519,7 +1579,7 @@ backgroundTaskManager.startBackgroundRunning(
 );
 ```
 
-9 background modes: `dataTransfer` · `audioPlayback` · `audioRecording` · `location` · `bluetoothInteraction` · `multiDeviceConnection` · `taskKeeping` (2-in-1 only)
+9 background modes: `dataTransfer` · `audioPlayback` · `audioRecording` · `location` · `bluetoothInteraction` · `multiDeviceConnection` · `wifiInteraction` · `voip` · `taskKeeping` (2-in-1 only)
 
 **Deferred task frequency by user activity:** Active=2h, Frequent=4h, Regular=24h, Rare=48h, Never used=prohibited.
 
@@ -1666,10 +1726,10 @@ group.addTask(heavyCalc, 30);
 const results = await taskpool.execute(group);  // returns array of results
 ```
 
-**Long-time tasks:** async code (Promise/IO) in TaskPool has NO time limit (only CPU-bound sync code is capped at 3 minutes). HarmonyOS 6.0 officially supports long-running async tasks in TaskPool.
+**Long-time tasks:** async code (Promise/IO) in TaskPool has NO time limit (only CPU-bound sync code is capped at 3 minutes). HarmonyOS 6.1 (API 23) supports long-running async tasks in TaskPool.
 
 ### @Sendable — shared-heap reference passing
-Objects on SharedHeap (process-level, all threads can access) — **100x faster** than serialization for 1MB data.
+Objects on SharedHeap (process-level, all threads can access) — reported ~100x faster than serialization for ~1MB payloads (vendor-published figure; indicative).
 
 ```ts
 @Sendable
@@ -1757,7 +1817,8 @@ http.interceptors.response.use(
 
 // File download
 import fs from '@ohos.file.fs';
-const filePath = getContext(this).cacheDir + '/file.jpg';
+const ctx = this.getUIContext().getHostContext() as common.UIAbilityContext;
+const filePath = ctx.cacheDir + '/file.jpg';
 axios({ url: 'https://example.com/file.jpg', method: 'get', filePath,
   onDownloadProgress: (e) => {
     console.info('Progress: ' + (e.loaded && e.total ? Math.ceil(e.loaded / e.total * 100) : 0) + '%');
@@ -2078,13 +2139,13 @@ dayjs().diff(dayjs('2024-01-01'), 'day');     // days difference
 
 > Full catalog: `https://gitcode.com/HarmonyOS_Samples` — clone any sample with `git clone https://gitcode.com/HarmonyOS_Samples/<name>.git`
 
-## API 21 (SDK 6.0.1) — confirmed compile errors and fixes
+## API 21 (SDK 6.0.1) — compile errors verified on that SDK (re-check on API 24/26)
 
-These errors were verified against a real Mate 70 Pro build. All entries below caused `ArkTS Compiler Error` at `assembleDevHqf`.
+These errors were verified against a real Mate 70 Pro build on **API 21 / SDK 6.0.1**. All entries below caused `ArkTS Compiler Error` at `assembleDevHqf`. The verification baseline is two releases behind the current one: keep the fixes, but re-confirm the exact signature on the SDK you actually build against.
 
 ### `DataChangeListener` requires both new and deprecated method names
 
-In API 21, any class that `implements DataChangeListener` must include ALL of:
+Any class that `implements DataChangeListener` must include ALL of these methods — verified on API 21; the interface still declares both the current and the legacy names on later SDKs, so re-check against the SDK you build with:
 ```ts
 // New names (current)
 onDataReloaded(): void
@@ -2092,11 +2153,12 @@ onDataAdd(index: number): void
 onDataDelete(index: number): void
 onDataChange(index: number): void
 onDataMove(from: number, to: number): void
-// Deprecated aliases — still required by the interface in API 21
+// Deprecated legacy aliases — still declared on the interface, so still required in an implementation
 onDataAdded(index: number): void
 onDataDeleted(index: number): void
 onDataChanged(index: number): void
 onDataMoved(from: number, to: number): void
+// Current batch-update callback (API 12+) — NOT deprecated, do not drop it
 onDatasetChange(dataOperations: DataOperation[]): void
 ```
 This applies to every class including test stubs (`NoopListener`, etc).
@@ -2163,9 +2225,24 @@ async function requestPermission(ctx: common.UIAbilityContext, name: AppPermissi
 }
 ```
 
-### `getContext(this)` is deprecated
+### Legacy API migration table (getContext / router / animateTo / dialogs)
 
-Replace in all component methods:
+All examples in this skill use the current form. Migrate legacy code as follows:
+
+| Legacy (deprecated) | Current | Notes |
+|---|---|---|
+| `getContext(this)` | `this.getUIContext().getHostContext()` | Deprecated; module-level helpers must receive the context as a parameter |
+| `router.pushUrl()` / `router.back()` / `router.replaceUrl()` | `this.getUIContext().getRouter().pushUrl()` … | Module-level `router` deprecated from API 18; prefer `Navigation` + `NavPathStack` for new pages |
+| `animateTo()` | `this.getUIContext().animateTo()` | Global function deprecated from API 18 |
+| `promptAction.showToast()` / `@ohos.promptAction` | `this.getUIContext().getPromptAction().showToast()` | Deprecated from API 18 |
+| `AlertDialog.show()` | `this.getUIContext().showAlertDialog()` | Deprecated from API 18 |
+| `CustomDialog` / `CustomDialogController` | `openCustomDialog` / `openBindSheet` via `UIContext` | Legacy dialog controller |
+| `@ohos.multimedia.camera` and similar | `@kit.CameraKit` and other `@kit.*` namespaces | `@kit.*` needs no `oh-package.json5` dependency |
+| `picker.PhotoViewPicker` (`@ohos.file.picker`) | `photoAccessHelper.PhotoViewPicker` (`@kit.MediaLibraryKit`) | Same idea for `DocumentViewPicker` via `@kit.CoreFileKit` |
+| `READ_MEDIA` / `WRITE_MEDIA` | `READ_IMAGEVIDEO` / `WRITE_IMAGEVIDEO` | From API 12 |
+| `file.closeSync()` (File instance method) | `fs.closeSync(file)` / `await fs.close(file)` | File instance methods were removed; module-level functions remain |
+
+Replace `getContext(this)` in component methods:
 ```ts
 // ❌
 const ctx = getContext(this) as common.UIAbilityContext
@@ -2341,7 +2418,7 @@ await notificationManager.addSlot(notificationManager.SlotType.SOCIAL_COMMUNICAT
 
 // 2. Check and request notification enable
 const enabled = await notificationManager.isNotificationEnabled()
-if (!enabled) await notificationManager.requestEnableNotification()  // deprecated but functional
+if (!enabled) await notificationManager.requestEnableNotification()  // deprecated from API 12; prefer guiding the user to the notification settings page
 
 // 3. Publish
 const request: notificationManager.NotificationRequest = {
@@ -2822,14 +2899,14 @@ class ImageCache {
 ```ts
 import { image } from '@kit.ImageKit';
 
-// Create PixelMap as purgeable — OS can reclaim when memory is tight,
-// and will regenerate it from the source on next access
 const pixelMap = await image.createPixelMap(buffer, {
   size: { width: 1920, height: 1080 },
   editable: false
 });
-// No extra API needed — PixelMap is automatically purgeable when editable=false
-// and created from a decodable source (file path or buffer)
+// NOTE: the earlier claim that `editable: false` alone makes a PixelMap purgeable,
+// with no further API, is UNVERIFIED (and likely wrong). `editable` only controls
+// mutability. Check the Image Kit notes for your target SDK for the current
+// purgeable/decodable API before designing a memory strategy around it.
 ```
 
 ### General memory rules
@@ -2851,7 +2928,7 @@ import { camera, cameraPicker as picker } from '@kit.CameraKit';
 import { fileIo, fileUri } from '@kit.CoreFileKit';
 
 // Create a temp file to receive the capture result
-const pathDir = getContext(this).filesDir;
+const pathDir = (this.getUIContext().getHostContext() as common.UIAbilityContext).filesDir;
 const filePath = pathDir + `/${Date.now()}.tmp`;
 fileIo.createRandomAccessFileSync(filePath, fileIo.OpenMode.CREATE);
 
@@ -2862,7 +2939,7 @@ const pickerProfile: picker.PickerProfile = {
 
 // Launch system camera — user takes photo/video and confirms
 const result = await picker.pick(
-  getContext(this),
+  this.getUIContext().getHostContext() as common.UIAbilityContext,
   [picker.PickerMediaType.PHOTO, picker.PickerMediaType.VIDEO],
   pickerProfile
 );
@@ -3135,7 +3212,7 @@ const options: scanBarcode.ScanOptions = {
 
 try {
   const result = await scanBarcode.startScanForResult(
-    getContext(this),   // or this.getUIContext().getHostContext()
+    this.getUIContext().getHostContext() as common.UIAbilityContext,
     options
   );
   // result.originalValue — decoded string
@@ -3296,7 +3373,7 @@ const loginRequest = new authentication.HuaweiIDProvider().createLoginWithHuawei
 loginRequest.forceLogin = true;  // true = show login page if not logged in
 loginRequest.state = util.generateRandomUUID();
 
-const controller = new authentication.AuthenticationController(getContext(this));
+const controller = new authentication.AuthenticationController(this.getUIContext().getHostContext() as common.UIAbilityContext);
 const response = await controller.executeRequest(loginRequest);
 const authCode = response.data?.authorizationCode;
 // Send authCode to server → server gets UnionID/OpenID via Access Token
@@ -3562,7 +3639,7 @@ Text($r('[library].string.shared_text'))
 ### Programmatic access via ResourceManager
 
 ```ts
-const resMgr = getContext(this).resourceManager;
+const resMgr = (this.getUIContext().getHostContext() as common.UIAbilityContext).resourceManager;
 const str = resMgr.getStringByNameSync('hello_world');
 const rawFd = resMgr.getRawFd('data.json');  // returns {fd, offset, length}
 ```
@@ -3591,7 +3668,7 @@ import { common } from '@kit.AbilityKit';
 // Contains: app_id, merc_no, prepay_id, timestamp, noncestr, sign
 const orderStr = '{"app_id":"...","merc_no":"...","prepay_id":"...","timestamp":"...","noncestr":"...","sign":"..."}';
 
-const context = getContext(this) as common.UIAbilityContext;
+const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 paymentService.requestPayment(context, orderStr)
   .then(() => { console.info('Payment succeeded'); })
   .catch((err: BusinessError) => { console.error('Payment failed:', err.code, err.message); });
@@ -3659,7 +3736,7 @@ Core file operations via `@kit.CoreFileKit`. All paths should come from Context 
 ```ts
 import { fileIo as fs } from '@kit.CoreFileKit';
 
-const context = getContext(this);
+const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
 // Write a file
 const filePath = context.filesDir + '/data.json';
@@ -3995,6 +4072,8 @@ uiContext.openBindSheet(sheetNode, {
   backgroundColor: '#F1F3F5',
 }, targetComponentId);
 ```
+
+> Verify the host object and argument order of `openBindSheet` against the installed SDK (`UIContext` vs `PromptAction`); this surface has moved between API versions.
 
 ### bindContentCover (full-screen modal overlay)
 
@@ -4384,7 +4463,7 @@ ListItem() { /* content */ }
       builder: () => {
         Button('Delete').backgroundColor(Color.Red)
           .onClick(() => {
-            animateTo({ duration: 300 }, () => {
+            this.getUIContext().animateTo({ duration: 300 }, () => {
               this.dataList.splice(index, 1);
             });
           })
@@ -4407,7 +4486,7 @@ List() {
   this.dragIndex = itemIndex;
 })
 .onItemDragMove((event: ItemDragInfo, itemIndex: number, insertIndex: number) => {
-  animateTo({ duration: 200 }, () => {
+  this.getUIContext().animateTo({ duration: 200 }, () => {
     const tmp = this.dataList.splice(this.dragIndex, 1);
     this.dataList.splice(insertIndex, 0, tmp[0]);
     this.dragIndex = insertIndex;

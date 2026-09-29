@@ -4,7 +4,7 @@ Use this recipe when the user asks for code review, refactoring, migration revie
 
 ## Review order
 
-1. Target SDK and production/preview boundary.
+1. Target SDK and `targetSdkVersion` behavior gate.
 2. ArkTS strict typing and null safety.
 3. ArkUI state decorator correctness.
 4. Lifecycle side effects and async work.
@@ -24,4 +24,5 @@ Use this recipe when the user asks for code review, refactoring, migration revie
 
 - Generic React or Android advice.
 - Rewriting the whole file when a targeted fix is enough.
-- API 26-only recommendations for API 24 production code.
+- Recommending API 26-only calls to a project whose `compatibleSdkVersion` cannot support them without a fallback.
+- Treating API 26.0.0 as a preview/Beta SDK.

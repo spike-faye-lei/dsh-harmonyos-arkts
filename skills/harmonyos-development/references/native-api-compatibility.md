@@ -54,15 +54,17 @@ Temporarily disabling weak-reference support is a useful link-completeness check
 
 ```cpp
 if (APIAVAILABLE(26, 0, 0)) {
-  // Call the API introduced in 26.0.0.
+  // Call the API introduced in 26.0.0 (HarmonyOS 7, Release 2026-08-29).
 } else {
-  // Compatible fallback for older devices.
+  // Compatible fallback for older devices, for example API 24.
 }
 ```
 
 Legacy HarmonyOS version `X.Y.Z(N)` and OpenHarmony API `N` use `N.0.0` in availability checks. The API version format changed to SemVer at 26.0.0, but the compatibility ordering remains:
 
-`26.0.0 > 6.1.1(24) > 6.1.0(23) > 6.0.2(22)`.
+`26.0.0 > 6.1.1(24) > 6.1.0(23) > 6.0.2(22)`
+
+Keep the API 24 floor in mind: API 26.0.0 is a Release SDK, but most devices in the field are still on API 24, so a weak-reference + fallback design is still the correct default for `compatibleSdkVersion` below 26.0.0.
 
 ## Required runtime verification
 

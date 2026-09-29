@@ -7,6 +7,7 @@ Use this reference when the user asks about routing, page stacks, Navigation, Na
 - Prefer Navigation and NavPathStack for new HarmonyOS NEXT applications.
 - Keep route names, parameters, and page registration explicit.
 - Mention SDK version assumptions when using newer Navigation behavior.
+- The legacy `router` module (`@ohos.router`) is deprecated: `router.pushUrl()` / `router.back()` were superseded from API 18 by `this.getUIContext().getRouter()`. In new code use Navigation/NavPathStack; for legacy code, migrate to the UIContext form first and to Navigation when the page stack can be restructured.
 
 ## Guidance
 
