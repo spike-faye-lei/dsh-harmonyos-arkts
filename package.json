@@ -1,27 +1,42 @@
 {
   "name": "dsh-harmonyos-arkts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "HarmonyOS NEXT / ArkTS development skills for DeepSeek Harness — ArkTS/ArkUI coding knowledge on the API 26.0.0 (HarmonyOS 7) Release baseline with an API 24 compatibility floor, plus ArkTS code review.",
   "author": "spike-faye-lei",
   "type": "module",
   "main": "src/index.js",
   "exports": {
     ".": "./src/index.js",
+    "./client": "./lib/client.js",
     "./package.json": "./package.json"
   },
   "files": [
     "src/",
+    "lib/",
     "skills/",
+    "build-client.mjs",
     "cordis.patch.yml",
     "README.md",
     "LICENSE"
   ],
+  "scripts": {
+    "build": "node build-client.mjs",
+    "check": "node build-client.mjs --check"
+  },
   "dependencies": {
     "yaml": "^2.7.0"
   },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
     }
   },
   "keywords": [
